@@ -47,10 +47,10 @@ public class OperationService {
     }
 
     public Operation transfer(long amount,BankAccount from,BankAccount to){
-        BankAccount existingAccountFrom = bankAccount.findById(from.getNumber()).orElse(null);
+        BankAccount existingAccountFrom = bankAccount.getOne(from.getNumber());
         existingAccountFrom.setBalance(existingAccountFrom.getBalance() - amount);
 
-        BankAccount existingAccountTo = bankAccount.findById(to.getNumber()).orElse(null);
+        BankAccount existingAccountTo = bankAccount.getOne(to.getNumber());
         existingAccountTo.setBalance(existingAccountTo.getBalance() + amount);
 
 

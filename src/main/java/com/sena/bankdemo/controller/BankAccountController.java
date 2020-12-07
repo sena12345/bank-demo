@@ -4,6 +4,7 @@ import com.sena.bankdemo.entity.BankAccount;
 import com.sena.bankdemo.entity.Client;
 import com.sena.bankdemo.service.BankAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.web.JsonPath;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,9 +14,9 @@ public class BankAccountController {
     @Autowired
     private BankAccountService bankAccountService;
 
-    @PostMapping("api/account/create")
-    public long openAccount(@RequestBody BankAccount bankAccount){
-        return bankAccountService.openAccount(bankAccount);
+    @PostMapping("api/account/create/{id}")
+    public long openAccount(@PathVariable int id, @RequestBody BankAccount bankAccount){
+        return bankAccountService.openAccount(id,bankAccount);
     }
     @GetMapping("api/account/accounts")
     public List<BankAccount> getAllAccounts(){
