@@ -5,20 +5,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "client")
+@Table
 public class Client {
     @Id
     @GeneratedValue
     private int id;
     private String firstName;
     private String lastName;
+    @Column(name = "email",unique = true)
     private String email;
     private String contact;
 
