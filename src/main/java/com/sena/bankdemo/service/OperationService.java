@@ -21,28 +21,30 @@ public class OperationService {
     private BankAccountRepository bankAccount;
 
     public Operation deposit(long amount, BankAccount account){
+
+        BankAccount existingAccount =  bankAccount.getOne(account.getNumber());
+        existingAccount.setBalance(amount+existingAccount.getBalance());
+
         Operation operation = new Operation();
         operation.setAmount(amount);
         operation.setType(Utils.DEPOSIT.ordinal());
-        operation.setOps_client(account.getAcc_client());
+        operation.setOps_client(existingAccount.getAcc_client());
         operation.setDoneAt(LocalDate.now().toString());
-        BankAccount existingAccount =  bankAccount.findById(account.getNumber()).orElse(null);
-        existingAccount.setBalance(amount+existingAccount.getBalance());
 
         return operationRepository.save(operation);
     }
 
     public Operation withdraw(long amount, BankAccount account){
-        BankAccount existingAccount = bankAccount.findById(account.getNumber()).orElse(null);
+        BankAccount existingAccount =  bankAccount.getOne(account.getNumber());
         existingAccount.setBalance(existingAccount.getBalance() - amount);
 
         Operation operation = new Operation();
-        operation.setType(Utils.WITHDRAWAL.ordinal());
         operation.setAmount(amount);
-        operation.setOps_client(account.getAcc_client());
+        operation.setType(Utils.WITHDRAWAL.ordinal());
+        operation.setOps_client(existingAccount.getAcc_client());
         operation.setDoneAt(LocalDate.now().toString());
 
-        return  operationRepository.save(operation);
+        return operationRepository.save(operation);
 
     }
 
